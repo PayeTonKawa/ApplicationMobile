@@ -1,10 +1,10 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:paye_ton_kawa/styles/custom_colors.dart';
+import 'package:paye_ton_kawa/views/products_list.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import '../widgets/custom_appBar.dart';
@@ -13,7 +13,7 @@ class ScannerAuthentication extends StatefulWidget {
   const ScannerAuthentication({super.key});
 
   @override
-  State<StatefulWidget> createState() => _ScannerAuthenticationState();
+  State<ScannerAuthentication> createState() => _ScannerAuthenticationState();
 }
 
 class _ScannerAuthenticationState extends State<ScannerAuthentication> {
@@ -33,7 +33,7 @@ class _ScannerAuthenticationState extends State<ScannerAuthentication> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'PayeTonKawa'),
+      appBar: const CustomAppBar(),
       body: Column(
         children: <Widget>[
           Expanded(flex: 4, child: _buildQrView(context)),
@@ -44,48 +44,65 @@ class _ScannerAuthenticationState extends State<ScannerAuthentication> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  (result != null) 
-                  ? const Text(
-                        'Authentification réussie !')
-                    
-                  : const Text('Scannez votre QR Code d\'authentification'),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        child: ElevatedButton(
-                            onPressed: () async {
-                              await controller?.toggleFlash();
-                              setState(() {});
-                            },
-                            child: FutureBuilder(
-                              future: controller?.getFlashStatus(),
-                              builder: (context, snapshot) {
-                                return Text('Flash: ${snapshot.data}');
-                              },
-                            )),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        child: ElevatedButton(
-                            onPressed: () async {
-                              await controller?.flipCamera();
-                              setState(() {});
-                            },
-                            child: FutureBuilder(
-                              future: controller?.getCameraInfo(),
-                              builder: (context, snapshot) {
-                                if (snapshot.data != null) {
-                                  return Text(
-                                      'Camera facing ${describeEnum(snapshot.data!)}');
-                                } else {
-                                  return const Text('loading');
-                                }
-                              },
-                            )),
-                      )
+                  Padding(
+                    padding:  const EdgeInsets.all(16),
+                    child:
+                      (result != null) 
+                      ? const Text(
+                          'Authentification réussie !',
+                          style: TextStyle(
+                            fontFamily: 'Roboto',
+                            color: Colors.green,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        )
+                      : const Text(
+                          'Scannez votre QR Code d\'authentification',
+                          style: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                  ),
+                      /* Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            margin: const EdgeInsets.all(8),
+                            child: ElevatedButton(
+                                onPressed: () async {
+                                  await controller?.toggleFlash();
+                                  setState(() {});
+                                },
+                                child: FutureBuilder(
+                                  future: controller?.getFlashStatus(),
+                                  builder: (context, snapshot) {
+                                    return Text('Flash: ${snapshot.data}');
+                                  },
+                                )),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.all(8),
+                            child: ElevatedButton(
+                                onPressed: () async {
+                                  await controller?.flipCamera();
+                                  setState(() {});
+                                },
+                                child: FutureBuilder(
+                                  future: controller?.getCameraInfo(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.data != null) {
+                                      return Text(
+                                          'Camera facing ${describeEnum(snapshot.data!)}');
+                                    } else {
+                                      return const Text('loading');
+                                    }
+                                  },
+                                )),
+                          )
                     ],
                   ),
                   Row(
@@ -113,7 +130,7 @@ class _ScannerAuthenticationState extends State<ScannerAuthentication> {
                         ),
                       )
                     ],
-                  ),
+                  ), */
                 ],
               ),
             ),
@@ -145,29 +162,34 @@ class _ScannerAuthenticationState extends State<ScannerAuthentication> {
   }
 
   void _onQRViewCreated(QRViewController controller) {
-    setState(() {
-      this.controller = controller;
-    });
-    controller.scannedDataStream.listen((scanData) {
-      setState(() async {
-        result = scanData;
-        if (result?.format == BarcodeFormat.qrcode) {
-          // Appel API pour vérification de l'authentification (token existant en BDD)
-          // Donc tout le monde peut se connecter ? pas de vérification de l'adresse mail lors de l'inscription ?
-          try {
-            await controller.pauseCamera();
-            Future.delayed(const Duration(milliseconds: 500), () {
-              //Navigator.push(context, MaterialPageRoute(builder: (context) => 'ProductsPage')).then((value) async => await controller.resumeCamera());
-            });
-          }
-          on FormatException {
-            Fluttertoast.showToast(msg: 'QR Code invalide !');
-          }
-          on Exception {
-            Fluttertoast.showToast(msg: 'Error !');
-          }
+    this.controller = controller;
+    controller.scannedDataStream.listen((scanData) async {
+      setState(() {});
+      result = scanData;
+      controller.pauseCamera();
+
+      if (result?.format == BarcodeFormat.qrcode) {
+        log(result!.code.toString());
+        try {
+          Future.delayed(const Duration(milliseconds: 500), () {
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ProductsList()));
+          });
         }
-      });
+        on FormatException {
+          Fluttertoast.showToast(
+            msg: 'QR Code invalide !',
+            textColor: Colors.red,
+          );
+          controller.resumeCamera();
+        }
+        on Exception {
+          Fluttertoast.showToast(
+            msg: 'Une erreur est survenue, veuillez réessayer.',
+            textColor: Colors.red,
+          );
+          controller.resumeCamera();
+        }
+      }
     });
   }
 
@@ -175,7 +197,7 @@ class _ScannerAuthenticationState extends State<ScannerAuthentication> {
     log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
     if (!p) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('no Permission')),
+        const SnackBar(content: Text('Permission refusée !')),
       );
     }
   }
