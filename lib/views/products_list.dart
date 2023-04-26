@@ -15,7 +15,7 @@ class ProductsList extends StatefulWidget {
 class _ProductsListState extends State<ProductsList> {
 
   Future<List<Product>> fetchProductsList() async {
-    return await ProductsApi().getProducts();
+    return await ProductsApi().getProductsList();
   }
 
   Widget _listView() {
@@ -38,22 +38,88 @@ class _ProductsListState extends State<ProductsList> {
                 child: SizedBox(
                   height: heigth * 0.1,
                   child: Card(
-                    //color: snapshot.data![index].details.color,
+                    color: CustomColors.transpLightBrown,
                     elevation: 5,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            snapshot.data![index].name.toString(),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          SizedBox(
+                            width: width / 2,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Flexible(
+                                    child: Text(
+                                      snapshot.data![index].name.toString(),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: const TextStyle(
+                                        color: CustomColors.gold,
+                                        fontFamily: 'Satisfy',
+                                        fontSize: 17,
+                                      ),
+                                    ),
+                                  ),
+                                  Flexible(
+                                    child: Text(
+                                      snapshot.data![index].details.description,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: const TextStyle(
+                                        color: CustomColors.darkGold,
+                                        fontFamily: 'Satisfy',
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: (width - 100) / 2,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: <Widget>[
+                                  Flexible(
+                                    child: Text(
+                                      '${snapshot.data![index].details.price.toString()}€',
+                                      style: const TextStyle(
+                                        color: CustomColors.gold,
+                                        fontFamily: 'Satisfy',
+                                        fontSize: 17,
+                                      ),
+                                    ),
+                                  ),
+                                  Flexible(
+                                    child: Text(
+                                      'Stock : ${snapshot.data![index].stock.toString()}',
+                                      style: TextStyle(
+                                        foreground: Paint()
+                                        ..style = PaintingStyle.stroke
+                                        ..strokeWidth = 1
+                                        ..color = CustomColors.darkGold,
+                                        fontFamily: 'Satisfy',
+                                        fontSize: 14,
+                                        decorationColor: Colors.black
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ],
                       ),
                     ),
                   ),
-                ),
               );
             },
           );

@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 class ProductsApi {
   final String uri = 'https://615f5fb4f7254d0017068109.mockapi.io/api/v1/products';
 
-  Future<List<Product>> getProducts() async {
+  Future<List<Product>> getProductsList() async {
     List<Product> productList = [];
     var response = await http.get(Uri.parse(uri));
 
