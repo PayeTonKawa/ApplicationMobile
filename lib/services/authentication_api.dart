@@ -1,8 +1,7 @@
-import 'dart:convert';
-import 'dart:math';
+import 'dart:developer';
 
 import 'package:http/http.dart' as http;
-import 'package:paye_ton_kawa/secure_storage.dart';
+import 'package:paye_ton_kawa/services/secure_storage.dart';
 
 class AuthenticationApi {
 
@@ -25,7 +24,7 @@ class AuthenticationApi {
       return true;
     }
     else {
-      print(response.reasonPhrase);
+      log(response.reasonPhrase.toString());
       return false;
     }
   }
@@ -40,7 +39,7 @@ class AuthenticationApi {
       return response.body;
     }
     else {
-      print(response.reasonPhrase);
+      log(response.reasonPhrase.toString());
       return '';
     }
   }
