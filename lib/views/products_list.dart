@@ -49,7 +49,7 @@ class _ProductsListState extends State<ProductsList> {
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Flexible(
@@ -59,8 +59,8 @@ class _ProductsListState extends State<ProductsList> {
                                       maxLines: 1,
                                       style: const TextStyle(
                                         color: CustomColors.gold,
-                                        fontFamily: 'Satisfy',
-                                        fontSize: 17,
+                                        fontFamily: 'Roboto',
+                                        fontSize: 16,
                                       ),
                                     ),
                                   ),
@@ -71,7 +71,7 @@ class _ProductsListState extends State<ProductsList> {
                                       maxLines: 1,
                                       style: const TextStyle(
                                         color: CustomColors.darkGold,
-                                        fontFamily: 'Satisfy',
+                                        fontFamily: 'Roboto',
                                         fontSize: 14,
                                       ),
                                     ),
@@ -81,11 +81,11 @@ class _ProductsListState extends State<ProductsList> {
                             ),
                           ),
                           SizedBox(
-                            width: (width - 100) / 2,
+                            width: (width - 70) / 2,
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: <Widget>[
                                   Flexible(
@@ -93,7 +93,7 @@ class _ProductsListState extends State<ProductsList> {
                                       '${snapshot.data![index].details.price.toString()}€',
                                       style: const TextStyle(
                                         color: CustomColors.gold,
-                                        fontFamily: 'Satisfy',
+                                        fontFamily: 'Roboto',
                                         fontSize: 17,
                                       ),
                                     ),
@@ -101,14 +101,10 @@ class _ProductsListState extends State<ProductsList> {
                                   Flexible(
                                     child: Text(
                                       'Stock : ${snapshot.data![index].stock.toString()}',
-                                      style: TextStyle(
-                                        foreground: Paint()
-                                        ..style = PaintingStyle.stroke
-                                        ..strokeWidth = 1
-                                        ..color = CustomColors.darkGold,
-                                        fontFamily: 'Satisfy',
+                                      style: const TextStyle(
+                                        color: CustomColors.darkGold,
+                                        fontFamily: 'Roboto',
                                         fontSize: 14,
-                                        decorationColor: Colors.black
                                       ),
                                     ),
                                   ),

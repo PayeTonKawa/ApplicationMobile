@@ -11,10 +11,11 @@ class ProductsApi {
 
   Future<List<Product>> getProductsList() async {
     List<Product> productList = [];
+    
     var response = await http.get(Uri.parse(uri));
 
     if (response.statusCode == 200) {
-      var data = jsonDecode(response.body);
+      var data = jsonDecode(utf8.decode(response.bodyBytes));
       for (var product in data) {
         Product pdt = Product(
           id: product["id"], 
