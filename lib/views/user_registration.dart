@@ -5,7 +5,7 @@ import 'package:paye_ton_kawa/services/authentication_api.dart';
 import 'package:paye_ton_kawa/services/secure_storage.dart';
 import 'package:paye_ton_kawa/styles/custom_colors.dart';
 import 'package:paye_ton_kawa/views/scanner_authentication.dart';
-import 'package:paye_ton_kawa/widgets/custom_appBar.dart';
+import 'package:paye_ton_kawa/widgets/custom_app_bar.dart';
 
 class UserRegistration extends StatefulWidget {
   const UserRegistration({super.key});
@@ -27,7 +27,9 @@ class _UserRegistrationState extends State<UserRegistration> {
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: const CustomAppBar(),
+      appBar: const CustomAppBar(
+        isAuthent: false,
+      ),
       body: Center(
         child: SingleChildScrollView(
           child: Column(

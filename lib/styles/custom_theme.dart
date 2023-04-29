@@ -19,8 +19,8 @@ class CustomTheme {
         ),
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
-        backgroundColor: CustomColors.gold,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        backgroundColor: CustomColors.transpLightBrown,
       ),
       appBarTheme: const AppBarTheme(
         backgroundColor: CustomColors.lightBrown,
@@ -28,7 +28,7 @@ class CustomTheme {
         titleTextStyle: TextStyle(
           color: CustomColors.gold,
           fontFamily: 'Satisfy',
-          fontSize: 36, 
+          fontSize: 36,
         )
       ),
     );
