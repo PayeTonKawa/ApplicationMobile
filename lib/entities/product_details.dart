@@ -1,11 +1,16 @@
-class ProductDetails {
-  String price;
-  String description;
-  String color;
+import 'package:equatable/equatable.dart';
 
-  ProductDetails({
+class ProductDetails extends Equatable {
+  final String price;
+  final String description;
+  final String color;
+
+  const ProductDetails({
     required this.price,
     required this.description,
     required this.color,
   });
+  
+  @override
+  List<Object?> get props => [price, description, color];
 }

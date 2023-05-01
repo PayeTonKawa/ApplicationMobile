@@ -13,14 +13,16 @@ class ProductsList extends StatefulWidget {
 }
 
 class _ProductsListState extends State<ProductsList> {
+  final ProductsApi productsApi = ProductsApi();
+  late Future<List<Product>> productsList;
 
-  Future<List<Product>> fetchProductsList() async {
-    return await ProductsApi().getProductsList();
+  @override
+  void initState() {
+    super.initState();
+    productsList = productsApi.getProductsList();
   }
 
   Widget _listView() {
-    final Future<List<Product>> productsList = fetchProductsList();
-
     double heigth = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
