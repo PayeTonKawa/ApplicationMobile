@@ -5,7 +5,7 @@ import 'package:paye_ton_kawa/services/secure_storage.dart';
 
 class AuthenticationApi {
 
-  final String uri = '';
+  final String _uri = '';
   final SecureStorage _secureStorage = SecureStorage();
 
   Future<bool> sendUserRegistration(String email) async {
@@ -14,7 +14,7 @@ class AuthenticationApi {
       'Content-Type': 'text/plain'
     };
     
-    var request = http.Request('POST', Uri.parse(uri));
+    var request = http.Request('POST', Uri.parse(_uri));
     request.headers.addAll(headers);
     request.body = email;
     
@@ -31,9 +31,9 @@ class AuthenticationApi {
 
   Future<String> getToken() async {
 
-    String email = await _secureStorage.getEmailAdress() ?? '';
+    String email = await _secureStorage.getEmailAddress() ?? '';
 
-    var response = await http.get(Uri.parse('$uri?email=$email'));
+    var response = await http.get(Uri.parse('$_uri?email=$email'));
 
     if (response.statusCode == 200) {
       return response.body;

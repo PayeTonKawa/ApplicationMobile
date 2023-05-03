@@ -16,7 +16,7 @@ class UserRegistration extends StatefulWidget {
 
 class _UserRegistrationState extends State<UserRegistration> {
 
-  final GlobalKey<FormFieldState> _formKey = GlobalKey();
+  final Key _formKey = const Key('_formKey');
   final SecureStorage _secureStorage = SecureStorage();
   final _emailController = TextEditingController();
   bool _isValid = false;
@@ -101,8 +101,9 @@ class _UserRegistrationState extends State<UserRegistration> {
                   onPressed: () async {
                     _isValid = EmailValidator.validate(_emailController.text);
                     if (_isValid) {
-                      await _secureStorage.setEmailAdress(_emailController.text);
+                      await _secureStorage.setEmailAddress(_emailController.text);
                       //await AuthenticationApi().sendUserRegistration(_emailController.text);
+                      if (!mounted) return;
                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ScannerAuthentication()));
                       Fluttertoast.showToast(
                         msg: "Email envoyé !",

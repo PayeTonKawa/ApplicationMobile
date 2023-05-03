@@ -1,24 +1,24 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SecureStorage {
-  final storage = const FlutterSecureStorage();
+  final _storage = const FlutterSecureStorage();
 
-  final String _keyEmailAdress = 'email';
+  final String _keyEmailAddress = 'email';
   final String _keyToken = 'token';
 
-  Future setEmailAdress(String emailAdress) async {
-    await storage.write(key: _keyEmailAdress, value: emailAdress);
+  Future setEmailAddress(String emailAddress) async {
+    await _storage.write(key: _keyEmailAddress, value: emailAddress);
   }
 
-  Future<String?> getEmailAdress() async {
-    return await storage.read(key: _keyEmailAdress);
+  Future<String?> getEmailAddress() async {
+    return await _storage.read(key: _keyEmailAddress);
   }
 
   Future setToken(String token) async {
-    await storage.write(key: _keyToken, value: token);
+    await _storage.write(key: _keyToken, value: token);
   }
 
   Future<String?> getToken() async {
-    return await storage.read(key: _keyToken);
+    return await _storage.read(key: _keyToken);
   }
 }

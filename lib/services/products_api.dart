@@ -7,11 +7,11 @@ import 'package:http/http.dart' as http;
 
 class ProductsApi {
   http.Client client = http.Client();
-  final String uri = 'https://615f5fb4f7254d0017068109.mockapi.io/api/v1/products';
+  final String _uri = 'https://615f5fb4f7254d0017068109.mockapi.io/api/v1/products';
 
   Future<List<Product>> getProductsList() async {
     List<Product> productList = [];
-    var response = await client.get(Uri.parse(uri));
+    var response = await client.get(Uri.parse(_uri));
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
