@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paye_ton_kawa/views/augmented_reality.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key, this.title="PayeTonKawa", required this.isAuthent});
@@ -22,7 +23,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ? <Widget>[
         IconButton(
           onPressed: () {
-            
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const AugmentedReality()));
           }, 
           icon: const Icon(
             Icons.print

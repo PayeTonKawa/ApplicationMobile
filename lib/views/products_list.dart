@@ -32,101 +32,110 @@ class _ProductsListState extends State<ProductsList> {
       future: productsList,
       builder: ((context, snapshot) {
         if (snapshot.hasData) {
-          return ListView.builder(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemCount: snapshot.data!.length,
-            itemBuilder:(context, index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-                child: SizedBox(
-                  height: heigth * 0.1,
-                  child: FloatingActionButton(
-                    heroTag: 'Button$index',
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        SizedBox(
-                          width: width / 2,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Flexible(
-                                  child: Text(
-                                    snapshot.data![index].name.toString(),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    style: const TextStyle(
-                                      color: CustomColors.gold,
-                                      fontFamily: 'Roboto',
-                                      fontSize: 16,
+          if (snapshot.data!.isNotEmpty) {
+            return ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemCount: snapshot.data!.length,
+              itemBuilder:(context, index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                  child: SizedBox(
+                    height: heigth * 0.1,
+                    child: FloatingActionButton(
+                      heroTag: 'Button$index',
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          SizedBox(
+                            width: width / 2,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Flexible(
+                                    child: Text(
+                                      snapshot.data![index].name.toString(),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: const TextStyle(
+                                        color: CustomColors.gold,
+                                        fontFamily: 'Roboto',
+                                        fontSize: 16,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Flexible(
-                                  child: Text(
-                                    snapshot.data![index].details.description,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    style: const TextStyle(
-                                      color: CustomColors.darkGold,
-                                      fontFamily: 'Roboto',
-                                      fontSize: 14,
+                                  Flexible(
+                                    child: Text(
+                                      snapshot.data![index].details.description,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: const TextStyle(
+                                        color: CustomColors.darkGold,
+                                        fontFamily: 'Roboto',
+                                        fontSize: 14,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          width: (width - 70) / 2,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: <Widget>[
-                                Flexible(
-                                  child: Text(
-                                    '${snapshot.data![index].details.price.toString()}€',
-                                    style: const TextStyle(
-                                      color: CustomColors.gold,
-                                      fontFamily: 'Roboto',
-                                      fontSize: 17,
+                          SizedBox(
+                            width: (width - 70) / 2,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: <Widget>[
+                                  Flexible(
+                                    child: Text(
+                                      '${snapshot.data![index].details.price.toString()}€',
+                                      style: const TextStyle(
+                                        color: CustomColors.gold,
+                                        fontFamily: 'Roboto',
+                                        fontSize: 17,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Flexible(
-                                  child: Text(
-                                    'Stock : ${snapshot.data![index].stock.toString()}',
-                                    style: TextStyle(
-                                      color: (snapshot.data![index].stock == 0)
-                                        ? Colors.red
-                                        : CustomColors.darkGold,
-                                      fontFamily: 'Roboto',
-                                      fontSize: 14,
+                                  Flexible(
+                                    child: Text(
+                                      'Stock : ${snapshot.data![index].stock.toString()}',
+                                      style: TextStyle(
+                                        color: (snapshot.data![index].stock == 0)
+                                          ? Colors.red
+                                          : CustomColors.darkGold,
+                                        fontFamily: 'Roboto',
+                                        fontSize: 14,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: ((context) => ProductDetailsView(product: snapshot.data![index]))));
+                      },
                     ),
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: ((context) => ProductDetailsView(product: snapshot.data![index]))));
-                    },
                   ),
-                ),
-              );
-            },
-          );
+                );
+              },
+            );
+          }
+          else {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: CustomColors.gold,
+              ),
+            );
+          }
         }
         else if (snapshot.hasError) {
           return Text('${snapshot.error}');
