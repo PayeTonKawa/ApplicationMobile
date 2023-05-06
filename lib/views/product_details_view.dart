@@ -62,7 +62,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                 ),
               ),
               SizedBox(
-                height: height * 0.1,
+                height: height * 0.05,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -96,7 +96,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                 ],
               ),
               SizedBox(
-                height: height * 0.1,
+                height: height * 0.05,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,

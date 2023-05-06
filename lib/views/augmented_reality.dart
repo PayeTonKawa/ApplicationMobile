@@ -6,8 +6,6 @@ import 'package:ar_flutter_plugin/managers/ar_object_manager.dart';
 import 'package:ar_flutter_plugin/managers/ar_session_manager.dart';
 import 'package:ar_flutter_plugin/models/ar_node.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:vector_math/vector_math_64.dart';
 
 class AugmentedReality extends StatefulWidget {
@@ -27,7 +25,7 @@ class _AugmentedRealityState extends State<AugmentedReality> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Local / Web Objects"),
+        title: const Text("Réalité augmentée"),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -35,7 +33,7 @@ class _AugmentedRealityState extends State<AugmentedReality> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height * .8,
+              height: MediaQuery.of(context).size.height * .6,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(22),
                 child: ARView(
@@ -49,7 +47,7 @@ class _AugmentedRealityState extends State<AugmentedReality> {
                   child: ElevatedButton(
                     onPressed: onWebObjectAtButtonPressed,
                     child: const Text(
-                      "Add / Remove Web Object",
+                      "Ajouter / retirer l'objet",
                     ),
                   ),
                 )
