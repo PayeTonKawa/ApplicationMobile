@@ -1,7 +1,5 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:paye_ton_kawa/services/authentication_api.dart';
 import 'package:paye_ton_kawa/services/secure_storage.dart';
 import 'package:paye_ton_kawa/styles/custom_colors.dart';
 import 'package:paye_ton_kawa/views/scanner_authentication.dart';
@@ -16,7 +14,7 @@ class UserRegistration extends StatefulWidget {
 
 class _UserRegistrationState extends State<UserRegistration> {
 
-  final GlobalKey<FormFieldState> _formKey = GlobalKey();
+  final Key _formKey = const Key('_formKey');
   final SecureStorage _secureStorage = SecureStorage();
   final _emailController = TextEditingController();
   bool _isValid = false;
@@ -103,37 +101,62 @@ class _UserRegistrationState extends State<UserRegistration> {
                   onPressed: () async {
                     _isValid = EmailValidator.validate(_emailController.text);
                     if (_isValid) {
-                      await _secureStorage.setEmailAdress(_emailController.text);
-                      //await AuthenticationApi().sendUserRegistration(_emailController.text);
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ScannerAuthentication()));
-                      Fluttertoast.showToast(
-                        msg: "Email envoyé !",
-                        textColor: Colors.green,
-                        backgroundColor: CustomColors.lightBrown,
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIosWeb: 1,
-                        fontSize: 18,
+                      
+                      if (!mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'Email envoyé !',
+                            style: TextStyle(
+                              color: Colors.green,
+                              fontSize: 18,
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.w700,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          backgroundColor: CustomColors.lightBrown,
+                          duration: Duration(seconds: 1),
+                        ),
                       );
+                      await _secureStorage.setEmailAddress(_emailController.text);
+                      //await AuthenticationApi().sendUserRegistration(_emailController.text);
+                      Future.delayed(const Duration(seconds: 2), () {
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ScannerAuthentication()));
+                      });
                     } else if (_emailController.text.isEmpty) {
-                      Fluttertoast.showToast(
-                        msg: 'Entrez une adresse email !',
-                        textColor: Colors.red,
-                        backgroundColor: CustomColors.lightBrown,
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIosWeb: 1,
-                        fontSize: 18,
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'Entrez une adresse email !',
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 18,
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.w700,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          backgroundColor: CustomColors.lightBrown,
+                          duration: Duration(seconds: 2),
+                        ),
                       );
                     } else {
-                      Fluttertoast.showToast(
-                        msg: 'Adresse email invalide !',
-                        textColor: Colors.red,
-                        backgroundColor: CustomColors.lightBrown,
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIosWeb: 1,
-                        fontSize: 18,
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'Adresse email invalide !',
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 18,
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.w700,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          backgroundColor: CustomColors.lightBrown,
+                          duration: Duration(seconds: 2),
+                        ),
                       );
                     }
                   },

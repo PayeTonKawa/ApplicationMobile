@@ -14,6 +14,7 @@ class ProductsList extends StatefulWidget {
 }
 
 class _ProductsListState extends State<ProductsList> {
+  final ProductsApi productsApi = ProductsApi();
 
   late final Future<List<Product>> productsList;
 

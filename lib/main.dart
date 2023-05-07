@@ -5,6 +5,7 @@ import 'package:paye_ton_kawa/styles/custom_colors.dart';
 import 'package:paye_ton_kawa/styles/custom_theme.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       systemNavigationBarColor: CustomColors.lightBrown,
       statusBarColor: CustomColors.brown,

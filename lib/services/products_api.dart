@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import '../entities/product.dart';
 import '../entities/product_details.dart';
@@ -7,13 +6,14 @@ import '../entities/product_details.dart';
 import 'package:http/http.dart' as http;
 
 class ProductsApi {
+  http.Client client = http.Client();
+  
   final String uri = 'https://webshop.api.tauzin.dev/api/products';
   //final String uri = 'https://615f5fb4f7254d0017068109.mockapi.io/api/v1/products';
 
   Future<List<Product>> getProductsList() async {
     List<Product> productList = [];
-    
-    var response = await http.get(Uri.parse(uri));
+    var response = await client.get(Uri.parse(uri));
 
     if (response.statusCode == 200) {
       var data = jsonDecode(utf8.decode(response.bodyBytes))["data"];
@@ -34,8 +34,7 @@ class ProductsApi {
       return productList;
     }
     else {
-      log(response.reasonPhrase.toString());
-      return productList;
+      throw Exception('Failed to load products');
     }
   }
 }
