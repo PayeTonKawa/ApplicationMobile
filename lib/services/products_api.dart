@@ -16,7 +16,7 @@ class ProductsApi {
     var response = await client.get(Uri.parse(uri));
 
     if (response.statusCode == 200) {
-      var data = jsonDecode(utf8.decode(response.bodyBytes))["data"];
+      var data = jsonDecode(utf8.decode(response.bodyBytes));
       for (var product in data) {
         Product pdt = Product(
           id: product["id"], 
