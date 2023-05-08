@@ -67,7 +67,7 @@ void main() {
 
       final result = await productsApi.getProductsList();
       expect(result, equals(productsList));
-      verify(productsApi.client.get(Uri.parse(uri), headers: headers));
+      verify(productsApi.client.get(Uri.parse(uri), headers: headers)).called(1);
     });
 
     test('throws an exception if the http call completes with an error', () async {
@@ -83,7 +83,7 @@ void main() {
       catch (e) {
         expect(e, isA<Exception>());
       }
-      verify(productsApi.client.get(Uri.parse(uri), headers: headers));
+      verify(productsApi.client.get(Uri.parse(uri), headers: headers)).called(1);
     });
   });
 }
