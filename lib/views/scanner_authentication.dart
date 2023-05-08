@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:paye_ton_kawa/services/secure_storage.dart';
 import 'package:paye_ton_kawa/styles/custom_colors.dart';
 import 'package:paye_ton_kawa/views/products_list.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -20,6 +21,7 @@ class _ScannerAuthenticationState extends State<ScannerAuthentication> {
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  final SecureStorage _secureStorage = SecureStorage();
 
   @override
   void reassemble() {
@@ -109,6 +111,7 @@ class _ScannerAuthenticationState extends State<ScannerAuthentication> {
       if (result?.format == BarcodeFormat.qrcode) {
         log(result!.code.toString());
         try {
+          await _secureStorage.setToken(result!.code!);
           Future.delayed(const Duration(milliseconds: 500), () {
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ProductsList()));
           });

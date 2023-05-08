@@ -21,7 +21,7 @@ class _ProductsListState extends State<ProductsList> {
   @override
   void initState() {
     super.initState();
-    productsList = ProductsApi().getProductsList();
+    productsList = productsApi.getProductsList();
   }
 
   Widget _listView() {

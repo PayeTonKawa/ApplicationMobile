@@ -1,7 +1,9 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:paye_ton_kawa/services/authentication_api.dart';
 import 'package:paye_ton_kawa/services/secure_storage.dart';
 import 'package:paye_ton_kawa/styles/custom_colors.dart';
+import 'package:paye_ton_kawa/views/products_list.dart';
 import 'package:paye_ton_kawa/views/scanner_authentication.dart';
 import 'package:paye_ton_kawa/widgets/custom_app_bar.dart';
 
@@ -16,6 +18,7 @@ class _UserRegistrationState extends State<UserRegistration> {
 
   final Key _formKey = const Key('_formKey');
   final SecureStorage _secureStorage = SecureStorage();
+  final AuthenticationApi _authenticationApi = AuthenticationApi();
   final _emailController = TextEditingController();
   bool _isValid = false;
 
@@ -119,11 +122,21 @@ class _UserRegistrationState extends State<UserRegistration> {
                           duration: Duration(seconds: 1),
                         ),
                       );
+
                       await _secureStorage.setEmailAddress(_emailController.text);
-                      //await AuthenticationApi().sendUserRegistration(_emailController.text);
-                      Future.delayed(const Duration(seconds: 2), () {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ScannerAuthentication()));
-                      });
+                      bool isNew = await _authenticationApi.sendUserRegistration();
+
+                      if (isNew) {
+                        Future.delayed(const Duration(seconds: 2), () {
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ScannerAuthentication()));
+                        });
+                      }
+                      else {
+                        Future.delayed(const Duration(seconds: 2), () {
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ProductsList()));
+                        });
+                      }
+                      
                     } else if (_emailController.text.isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(

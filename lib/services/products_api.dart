@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:paye_ton_kawa/services/secure_storage.dart';
+
 import '../entities/product.dart';
 import '../entities/product_details.dart';
 
@@ -8,14 +10,17 @@ import 'package:http/http.dart' as http;
 class ProductsApi {
   http.Client client = http.Client();
   
-  final String uri = 'https://webshop.api.tauzin.dev/api/products';
-  //final String uri = 'https://615f5fb4f7254d0017068109.mockapi.io/api/v1/products';
+  final String uri = 'https://revendeur.api.tauzin.dev/api/products';
+
+  final SecureStorage _secureStorage = SecureStorage();
 
   Future<List<Product>> getProductsList() async {
     List<Product> productList = [];
 
-    var headers = {
-      'X-AUTH-TOKEN': 'NTRmZ2psNjhkNWc4NWo0ZzY4',
+    String token = await _secureStorage.getToken() ?? '';
+
+    Map<String, String> headers = {
+      'auth-token': token,
     };
 
     var response = await client.get(Uri.parse(uri), headers: headers);

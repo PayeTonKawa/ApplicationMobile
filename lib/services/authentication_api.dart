@@ -1,46 +1,40 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 import 'package:paye_ton_kawa/services/secure_storage.dart';
 
 class AuthenticationApi {
+  http.Client client = http.Client();
 
-  final String _uri = '';
+  final String uri = 'https://revendeur.api.tauzin.dev/api/sessions';
   final SecureStorage _secureStorage = SecureStorage();
 
-  Future<bool> sendUserRegistration(String email) async {
-
-    var headers = {
-      'Content-Type': 'text/plain'
-    };
-    
-    var request = http.Request('POST', Uri.parse(_uri));
-    request.headers.addAll(headers);
-    request.body = email;
-    
-    var response = await request.send();
-
-    if (response.statusCode == 200) {
-      return true;
-    }
-    else {
-      log(response.reasonPhrase.toString());
-      return false;
-    }
-  }
-
-  Future<String> getToken() async {
+  Future<bool> sendUserRegistration() async {
 
     String email = await _secureStorage.getEmailAddress() ?? '';
 
-    var response = await http.get(Uri.parse('$_uri?email=$email'));
+    var headers = {
+      'Content-Type': 'application/json'
+    };
+
+    var body = json.encode({"email": email});
+
+    var response = await client.post(Uri.parse(uri), headers: headers, body: body);
 
     if (response.statusCode == 200) {
-      return response.body;
+      var data = jsonDecode(response.body)['data'];
+
+      if (data != null) {
+        log(data['jwt']);
+        _secureStorage.setToken(data['jwt']);
+        return false;
+      }
+
+      return true;
     }
     else {
-      log(response.reasonPhrase.toString());
-      return '';
+      throw Exception('Failed to register user');
     }
   }
 }

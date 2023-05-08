@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -11,10 +13,11 @@ import 'products_api_test.mocks.dart';
 
 @GenerateMocks([http.Client])
 void main() {
-  const String uri = 'https://webshop.api.tauzin.dev/api/products';
+  WidgetsFlutterBinding.ensureInitialized();
+  const String uri = 'https://revendeur.api.tauzin.dev/api/products';
 
   const Map<String,String> headers = {
-    'X-AUTH-TOKEN': 'NTRmZ2psNjhkNWc4NWo0ZzY4',
+    'auth-token': 'test',
   };
 
   const String jsonString = """
@@ -49,6 +52,10 @@ void main() {
       ),
     ),
   ];
+
+  setUpAll(() {
+    FlutterSecureStorage.setMockInitialValues({'token': 'test'});
+  });
 
   group('getProductsList', () {
     test('should return a list of Products if the http call completes successfully', () async {
