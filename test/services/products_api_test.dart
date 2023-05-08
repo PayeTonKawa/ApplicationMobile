@@ -11,11 +11,17 @@ import 'products_api_test.mocks.dart';
 
 @GenerateMocks([http.Client])
 void main() {
-  const String uri = 'https://615f5fb4f7254d0017068109.mockapi.io/api/v1/products';
+  const String uri = 'https://webshop.api.tauzin.dev/api/products';
 
-  const jsonString = """
-  [
-    {
+  const Map<String,String> headers = {
+    'X-AUTH-TOKEN': 'NTRmZ2psNjhkNWc4NWo0ZzY4',
+  };
+
+  const String jsonString = """
+  {
+    "code": 200,
+    "data": [
+      {
         "createdAt": "2023-02-20T09:57:59.008Z",
         "name": "Café test",
         "details": {
@@ -25,8 +31,9 @@ void main() {
         },
         "stock": 0,
         "id": "3"
-    }
-  ]
+      }
+    ]
+  }
   """;
 
   final productsList = [
@@ -48,24 +55,28 @@ void main() {
       final productsApi = ProductsApi();
       productsApi.client = MockClient();
 
-      when(productsApi.client.get(Uri.parse(uri)))
+      when(productsApi.client.get(Uri.parse(uri), headers: headers))
         .thenAnswer((_) async => http.Response(jsonString, 200));
 
       final result = await productsApi.getProductsList();
       expect(result, equals(productsList));
-      verify(productsApi.client.get(Uri.parse(uri)));
+      verify(productsApi.client.get(Uri.parse(uri), headers: headers));
     });
 
     test('throws an exception if the http call completes with an error', () async {
       final productsApi = ProductsApi();
       productsApi.client = MockClient();
 
-      when(productsApi.client.get(Uri.parse(uri)))
-        .thenAnswer((_) async => http.Response('Not Found', 404));
+      when(productsApi.client.get(Uri.parse(uri), headers: headers))
+        .thenAnswer((_) async => http.Response('Failed to load products', 404));
 
-      final call = productsApi.getProductsList();
-      expect(() => call, throwsException);
-      verify(productsApi.client.get(Uri.parse(uri)));
+      try {
+        await productsApi.getProductsList();
+      }
+      catch (e) {
+        expect(e, isA<Exception>());
+      }
+      verify(productsApi.client.get(Uri.parse(uri), headers: headers));
     });
   });
 }

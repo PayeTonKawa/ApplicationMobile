@@ -13,10 +13,15 @@ class ProductsApi {
 
   Future<List<Product>> getProductsList() async {
     List<Product> productList = [];
-    var response = await client.get(Uri.parse(uri));
+
+    var headers = {
+      'X-AUTH-TOKEN': 'NTRmZ2psNjhkNWc4NWo0ZzY4',
+    };
+
+    var response = await client.get(Uri.parse(uri), headers: headers);
 
     if (response.statusCode == 200) {
-      var data = jsonDecode(utf8.decode(response.bodyBytes));
+      var data = jsonDecode(response.body)['data'];
       for (var product in data) {
         Product pdt = Product(
           id: product["id"], 

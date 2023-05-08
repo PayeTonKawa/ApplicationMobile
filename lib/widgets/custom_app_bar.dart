@@ -26,7 +26,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             Navigator.push(context, MaterialPageRoute(builder: (context) => const AugmentedReality()));
           }, 
           icon: const Icon(
-            Icons.print
+            Icons.threed_rotation,
+            size: 30,
           ),
         ),
       ]
