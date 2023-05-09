@@ -2,7 +2,7 @@
 
 ## Destinataires
 
-Cette application mobile a été réalisée à destination des revendeurs de la société PayeTonKawa afin qu'ils puissent accéder aux commercialisés par l'entreprise.
+Cette application mobile a été réalisée à destination des revendeurs de la société PayeTonKawa afin qu'ils puissent accéder aux produits commercialisés par l'entreprise.
 Elle a été développée dans le langage de programmation Flutter permettant de la rendre disponible sur les plateformes Android comme iOS.
 
 ## Fonctionnalités
