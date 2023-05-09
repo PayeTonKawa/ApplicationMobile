@@ -1,16 +1,14 @@
-# paye_ton_kawa
+# Application mobile PayeTonKawa
 
-A new Flutter project.
+## Destinataires
 
-## Getting Started
+Cette application mobile a été réalisée à destination des revendeurs de la société PayeTonKawa afin qu'ils puissent accéder aux commercialisés par l'entreprise.
+Elle a été développée dans le langage de programmation Flutter permettant de la rendre disponible sur les plateformes Android comme iOS.
 
-This project is a starting point for a Flutter application.
+## Fonctionnalités
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Enregistrement d'une adresse email renseignée par l'utilisateur et transmise au serveur par appel API
+- Scan d'un QR code (contenant un token) reçu à cette même adresse email
+- Utilisation du token pour obtenir de manière sécurisée la liste des produits PayeTonKawa par appel API
+- Affichage des détails des produits
+- Fonctionnalité de réalité augmentée affichant un objet 3D dans un environnement réel par le biais de la caméra du téléphone
