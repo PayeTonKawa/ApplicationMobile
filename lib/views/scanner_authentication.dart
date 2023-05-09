@@ -109,7 +109,6 @@ class _ScannerAuthenticationState extends State<ScannerAuthentication> {
       controller.pauseCamera();
 
       if (result?.format == BarcodeFormat.qrcode) {
-        log(result!.code.toString());
         try {
           await _secureStorage.setToken(result!.code!);
           Future.delayed(const Duration(milliseconds: 500), () {

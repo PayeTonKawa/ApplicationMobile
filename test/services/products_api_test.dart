@@ -57,11 +57,11 @@ void main() {
     FlutterSecureStorage.setMockInitialValues({'token': 'test'});
   });
 
-  group('getProductsList', () {
-    test('should return a list of Products if the http call completes successfully', () async {
-      final productsApi = ProductsApi();
-      productsApi.client = MockClient();
+  group('ProductsList API tests', () {
+    final productsApi = ProductsApi();
+    productsApi.client = MockClient();
 
+    test('should return a list of Products if the http call completes successfully', () async {
       when(productsApi.client.get(Uri.parse(uri), headers: headers))
         .thenAnswer((_) async => http.Response(jsonString, 200));
 
@@ -71,9 +71,6 @@ void main() {
     });
 
     test('throws an exception if the http call completes with an error', () async {
-      final productsApi = ProductsApi();
-      productsApi.client = MockClient();
-
       when(productsApi.client.get(Uri.parse(uri), headers: headers))
         .thenAnswer((_) async => http.Response('Failed to load products', 404));
 

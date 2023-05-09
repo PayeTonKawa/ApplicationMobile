@@ -3,18 +3,23 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:paye_ton_kawa/entities/product.dart';
+import 'package:paye_ton_kawa/entities/product_details.dart';
 import 'package:paye_ton_kawa/services/products_api.dart';
 import 'package:paye_ton_kawa/views/products_list.dart';
 import 'package:http/http.dart' as http;
 
 import 'products_list_test.mocks.dart';
 
+
+class MockProductsListApi extends Mock implements ProductsApi{}
+
 @GenerateMocks([http.Client])
 void main() {
-  const String uri = 'https://webshop.api.tauzin.dev/api/products';
+  const String uri = 'https://revendeur.api.tauzin.dev/api/products';
 
   const Map<String,String> headers = {
-    'X-AUTH-TOKEN': 'NTRmZ2psNjhkNWc4NWo0ZzY4',
+    'auth-token': 'test',
   };
 
   const String jsonString = """
@@ -46,6 +51,8 @@ void main() {
     ]
   }
   """;
+
+  
 
   setUpAll(() {
     FlutterSecureStorage.setMockInitialValues({'token': 'test'});
