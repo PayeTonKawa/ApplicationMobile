@@ -3,11 +3,16 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:paye_ton_kawa/entities/product.dart';
+import 'package:paye_ton_kawa/entities/product_details.dart';
 import 'package:paye_ton_kawa/services/products_api.dart';
 import 'package:paye_ton_kawa/views/products_list.dart';
 import 'package:http/http.dart' as http;
 
 import 'products_list_test.mocks.dart';
+
+
+class MockProductsListApi extends Mock implements ProductsApi{}
 
 @GenerateMocks([http.Client])
 void main() {
@@ -47,6 +52,8 @@ void main() {
   }
   """;
 
+  
+
   setUpAll(() {
     FlutterSecureStorage.setMockInitialValues({'token': 'test'});
   });
@@ -65,25 +72,6 @@ void main() {
       await tester.pumpWidget(const MaterialApp(home: ProductsList()));
       
       final productsList = find.byType(ProductsList);
-      expect(productsList, findsOneWidget);
-
-      verify(productsApi.client.get(Uri.parse(uri), headers: headers)).called(1);
-
-      final circularProgressIndicator = find.byType(CircularProgressIndicator);
-      expect(circularProgressIndicator, findsOneWidget);
-    });
-
-    testWidgets('should find ProductsList and CircularProgressIndicator', (tester) async {
-      
-      when(productsApi.client.get(Uri.parse(uri), headers: headers))
-        .thenAnswer((_) async => http.Response(jsonString, 200));
-
-      await productsApi.getProductsList();
-
-      await tester.pumpWidget(const MaterialApp(home: ProductsList()));
-      
-      final productsList = find.byType(ProductsList);
-      //final listView = find
       expect(productsList, findsOneWidget);
 
       verify(productsApi.client.get(Uri.parse(uri), headers: headers)).called(1);
