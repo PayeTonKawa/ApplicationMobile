@@ -3,8 +3,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:paye_ton_kawa/entities/product.dart';
-import 'package:paye_ton_kawa/entities/product_details.dart';
 import 'package:paye_ton_kawa/services/products_api.dart';
 import 'package:paye_ton_kawa/views/products_list.dart';
 import 'package:http/http.dart' as http;
