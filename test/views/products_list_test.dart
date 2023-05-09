@@ -11,10 +11,10 @@ import 'products_list_test.mocks.dart';
 
 @GenerateMocks([http.Client])
 void main() {
-  const String uri = 'https://webshop.api.tauzin.dev/api/products';
+  const String uri = 'https://revendeur.api.tauzin.dev/api/products';
 
   const Map<String,String> headers = {
-    'X-AUTH-TOKEN': 'NTRmZ2psNjhkNWc4NWo0ZzY4',
+    'auth-token': 'test',
   };
 
   const String jsonString = """
@@ -65,6 +65,25 @@ void main() {
       await tester.pumpWidget(const MaterialApp(home: ProductsList()));
       
       final productsList = find.byType(ProductsList);
+      expect(productsList, findsOneWidget);
+
+      verify(productsApi.client.get(Uri.parse(uri), headers: headers)).called(1);
+
+      final circularProgressIndicator = find.byType(CircularProgressIndicator);
+      expect(circularProgressIndicator, findsOneWidget);
+    });
+
+    testWidgets('should find ProductsList and CircularProgressIndicator', (tester) async {
+      
+      when(productsApi.client.get(Uri.parse(uri), headers: headers))
+        .thenAnswer((_) async => http.Response(jsonString, 200));
+
+      await productsApi.getProductsList();
+
+      await tester.pumpWidget(const MaterialApp(home: ProductsList()));
+      
+      final productsList = find.byType(ProductsList);
+      //final listView = find
       expect(productsList, findsOneWidget);
 
       verify(productsApi.client.get(Uri.parse(uri), headers: headers)).called(1);

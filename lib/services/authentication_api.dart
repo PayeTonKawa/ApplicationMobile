@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 import 'package:paye_ton_kawa/services/secure_storage.dart';
@@ -14,7 +13,7 @@ class AuthenticationApi {
 
     String email = await _secureStorage.getEmailAddress() ?? '';
 
-    var headers = {
+    Map<String, String> headers = {
       'Content-Type': 'application/json'
     };
 
@@ -25,8 +24,7 @@ class AuthenticationApi {
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body)['data'];
 
-      if (data != null) {
-        log(data['jwt']);
+      if (data['jwt'] != null) {
         _secureStorage.setToken(data['jwt']);
         return false;
       }
